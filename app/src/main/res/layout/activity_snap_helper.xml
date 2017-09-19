@@ -6,9 +6,17 @@
     android:fitsSystemWindows="true"
     tools:context="com.czm.snaphelperdemo.SnapHelperActivity">
 
-    <android.support.v7.widget.RecyclerView android:id="@+id/recyclerview"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_margin="3dp" />
+
+    <!--<com.czm.snaphelperdemo.CustomRecycleView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:scrollbars="none" />-->
 
 </LinearLayout>

@@ -2,9 +2,11 @@ package com.czm.snaphelperdemo;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,6 +40,8 @@ public class SnapHelperAdapter extends RecyclerView.Adapter<SnapHelperAdapter.Ga
     public void onBindViewHolder(final GalleryViewHoler holder, final int position) {
         holder.mImageView.setImageResource(imgs[position % 8]);
         holder.mTextView.setText(mData.get(position));
+        holder.itemView.setFocusable(true);//zhangzhaolei +
+        holder.itemView.setTag(position);//zhangzhaolei +
         if (mOnItemClickLitener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -46,11 +50,36 @@ public class SnapHelperAdapter extends RecyclerView.Adapter<SnapHelperAdapter.Ga
                 }
             });
         }
+
+        holder.itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                Log.e("====", "hasfocus:" + position + "--" + hasFocus);
+                if (hasFocus) {
+                    /*if (mOnItemSelectedListener != null) {
+                        mOnItemSelectedListener.OnItemSelected(holder.itemView, position);
+                    }*/
+                    int currentPosition = (int) holder.itemView.getTag();
+                    mOnItemSelectedListener.OnItemSelected(holder.itemView, currentPosition);
+                    Log.e("====", "============currentPosition=" + currentPosition);
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return mData.size();
+    }
+
+    public interface OnItemSelectedListener {
+        void OnItemSelected(View view, int position);
+    }
+
+    private OnItemSelectedListener mOnItemSelectedListener;
+
+    public void setOnItemSelectedListener(OnItemSelectedListener mOnItemSelectedListener) {
+        this.mOnItemSelectedListener = mOnItemSelectedListener;
     }
 
     public interface OnItemClickLitener {
